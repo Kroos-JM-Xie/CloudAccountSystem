@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloudaccount.dao.AmountDao">
+    <select id="selectSumOutAmount"  resultType="double">
+        SELECT COALESCE(SUM(amount),0) FROM useramount WHERE userID=#{userID} and amountType='支出'
+    </select>
+    <select id="setlctSumInAmount"  resultType="double">
+        SELECT COALESCE(SUM(amount),0) FROM useramount WHERE userID=#{userID} and amountType='收入'
+    </select>
+    <select id="selectAmountByType" resultType="com.cloudaccount.entities.Amount">
+    select amountID,amount,amountType,writeTime,swName from useramount where amountType=#{amountType} and userID=#{userID} 
+    </select>
+    <select id="selectAmountByDate" resultType="com.cloudaccount.entities.Amount">
+    select amountID,amount,amountType,writeTime,swName from useramount where writeTime=#{writeTime} and userID=#{userID} 
+    </select>
+    <select id="selectAmountByDateAndType" resultType="com.cloudaccount.entities.Amount">
+    select amountID,amount,amountType,writeTime,swName from useramount where writeTime=#{writeTime} and amountType=#{amountType} and userID=#{userID} 
+    </select>
+    <select id="selectAmountByID" resultType="com.cloudaccount.entities.Amount">
+    select * from useramount where userID=#{userID}
+    </select>
+    <select id="selectAmountByAmountID" resultType="com.cloudaccount.entities.Amount">
+    select * from useramount where amountID=#{amountID} and userID=#{userID}
+    </select>
+    <select id="selectAmountToCountIn" resultType="com.cloudaccount.entities.Amount">
+    select userID,amountID,amount,amountType,writeTime,swName from useramount where amountType='收入' and userID=#{userID} 
+    </select>
+    <select id="selectAmountToCountOut" resultType="com.cloudaccount.entities.Amount">
+    select userID,amountID,amount,amountType,writeTime,swName from useramount where amountType='支出' and userID=#{userID}
+    </select>
+    <insert id="insertAmount" parameterType="com.cloudaccount.entities.Amount">
+    insert into useramount(userID,amountID,amount,amountType,writeTime,swName) 
+    values(#{userID},#{amountID},#{amount},#{amountType},#{writeTime},#{swName})
+    </insert>
+    <update id="updateAmount" parameterType="com.cloudaccount.entities.Amount">
+    update useramount set amount=#{amount}, amountType=#{amountType},writeTime=#{writeTime},swName=#{swName}
+     where amountID=#{amountID}
+    </update>
+    <delete id="deleteAmount" parameterType="com.cloudaccount.entities.Amount">
+    delete from useramount where amountID=#{amountID} and userID=#{userID}
+    </delete>
+</mapper>

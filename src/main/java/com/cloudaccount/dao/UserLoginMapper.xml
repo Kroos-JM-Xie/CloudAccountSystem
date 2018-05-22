@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloudaccount.dao.UserLoginDao">
+    <select id="selectUserByUserName"  resultType="com.cloudaccount.entities.UserLogin">
+        SELECT * FROM user WHERE userName=#{userName}
+    </select>
+    <select id="selectUser" resultType="com.cloudaccount.entities.UserLogin">
+    select * from user where userName=#{userName} and password=#{password}
+    </select>
+    <insert id="insertUser" parameterType="com.cloudaccount.entities.UserLogin">
+    insert into user(userName,password) values(#{userName},#{password})
+    </insert>
+    <update id="updatePassword" parameterType="com.cloudaccount.entities.UserLogin">
+    update user set password=#{password} where userID=#{userID}
+    </update>
+    
+</mapper>
